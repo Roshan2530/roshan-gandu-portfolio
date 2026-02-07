@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Github, Linkedin, FileText, Mail } from "lucide-react";
+import { Github, Linkedin, Download, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 
@@ -39,7 +39,7 @@ const Hero = () => {
           transition={{ delay: 0.2 }}
           className="font-mono text-xs tracking-[0.3em] text-muted-foreground mb-6 uppercase"
         >
-          Application Development & Data Science
+          Application Development & Data Scientist
         </motion.p>
 
         <h1
@@ -106,9 +106,9 @@ const Hero = () => {
             </Button>
           </motion.div>
           <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-            <Button asChild size="lg" className="rounded-full px-8 bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300">
+            <Button asChild size="lg" className="rounded-full px-8 bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-[0_0_20px_hsl(var(--primary)/0.4)] transition-all duration-300">
               <a href="/resume.pdf" download target="_blank" rel="noopener noreferrer">
-                <FileText size={16} className="mr-2" />
+                <Download size={16} className="mr-2" />
                 Resume
               </a>
             </Button>
