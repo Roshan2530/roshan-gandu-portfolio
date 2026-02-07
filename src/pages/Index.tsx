@@ -1,7 +1,27 @@
+import FloatingLines from "@/components/FloatingLines";
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import AboutSection from "@/components/AboutSection";
+import SkillsSection from "@/components/SkillsSection";
+import ProjectsSection from "@/components/ProjectsSection";
+import ServicesSection from "@/components/ServicesSection";
+import EducationSection from "@/components/EducationSection";
+import ContactSection from "@/components/ContactSection";
+import Footer from "@/components/Footer";
+
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <h1 className="text-4xl font-bold text-foreground">Start building here</h1>
+    <div className="min-h-screen bg-background text-foreground relative">
+      <FloatingLines />
+      <Navbar />
+      <Hero />
+      <AboutSection />
+      <SkillsSection />
+      <ProjectsSection />
+      <ServicesSection />
+      <EducationSection />
+      <ContactSection />
+      <Footer />
     </div>
   );
 };
