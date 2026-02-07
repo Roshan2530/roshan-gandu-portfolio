@@ -106,7 +106,7 @@ const Hero = () => {
             </Button>
           </motion.div>
           <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-            <Button asChild variant="outline" size="lg" className="rounded-full px-8 border-border text-muted-foreground hover:border-primary/40 hover:text-primary transition-all duration-300">
+            <Button asChild size="lg" className="rounded-full px-8 bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300">
               <a href="/resume.pdf" download target="_blank" rel="noopener noreferrer">
                 <FileText size={16} className="mr-2" />
                 Resume
