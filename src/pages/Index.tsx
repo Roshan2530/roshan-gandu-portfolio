@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import FloatingLines from "@/components/FloatingLines";
 import Navbar from "@/components/Navbar";
@@ -12,12 +12,20 @@ import Preloader from "@/components/Preloader";
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
-  const handleComplete = useCallback(() => setLoading(false), []);
+  const handleComplete = useCallback(() => {
+    setLoading(false);
+    window.scrollTo(0, 0);
+  }, []);
+
+  // Always show preloader on mount (every refresh)
+  useEffect(() => {
+    setLoading(true);
+  }, []);
 
   return (
     <>
-      <AnimatePresence>
-        {loading && <Preloader onComplete={handleComplete} />}
+      <AnimatePresence mode="wait">
+        {loading && <Preloader key="preloader" onComplete={handleComplete} />}
       </AnimatePresence>
 
       {!loading && (
