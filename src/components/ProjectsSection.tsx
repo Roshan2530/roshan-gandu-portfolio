@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ExternalLink } from "lucide-react";
 import SectionReveal from "./SectionReveal";
 
 interface Project {
@@ -8,6 +8,8 @@ interface Project {
   tagline: string;
   details: string[];
   tech: string[];
+  shareUrl?: string;
+  youtubeEmbed?: string;
 }
 
 const projects: Project[] = [
@@ -20,6 +22,7 @@ const projects: Project[] = [
       "Multi-module architecture with Flask backend and MySQL database",
     ],
     tech: ["Flutter", "Flask", "MySQL", "IoT", "GPS", "Arduino", "PHP"],
+    shareUrl: "https://github.com/Roshan2530/SafeX_",
   },
   {
     title: "Smart Rain Detection System",
@@ -30,6 +33,7 @@ const projects: Project[] = [
       "Real-time monitoring and instant response mechanism",
     ],
     tech: ["Arduino Uno", "Rain Sensor", "DC Motor"],
+    youtubeEmbed: "https://www.youtube.com/embed/ZYYZWtk_J_o?si=7jGn2nPfLJbavnvS",
   },
   {
     title: "RD Tours & Travels",
@@ -58,9 +62,23 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
           className="w-full text-left p-6 md:p-8 flex items-start justify-between gap-4"
         >
           <div className="flex-1">
-            <h3 className="text-lg md:text-xl font-semibold text-foreground mb-2">
-              {project.title}
-            </h3>
+            <div className="flex items-center gap-3 mb-2">
+              <h3 className="text-lg md:text-xl font-semibold text-foreground">
+                {project.title}
+              </h3>
+              {project.shareUrl && (
+                <a
+                  href={project.shareUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="p-1.5 rounded-lg border border-border text-muted-foreground hover:text-primary hover:border-primary/40 hover:shadow-[0_0_12px_hsl(var(--primary)/0.2)] transition-all duration-300"
+                  aria-label="View on GitHub"
+                >
+                  <ExternalLink size={14} />
+                </a>
+              )}
+            </div>
             <p className="text-sm text-muted-foreground">{project.tagline}</p>
             <div className="flex flex-wrap gap-2 mt-4">
               {project.tech.map((t, i) => (
@@ -95,7 +113,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
               transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="overflow-hidden"
             >
-              <div className="px-6 md:px-8 pb-6 md:pb-8 border-t border-border/50 pt-5">
+              <div className="px-6 md:px-8 pb-6 md:pb-8 border-t border-border/50 pt-5 space-y-5">
                 <ul className="space-y-3">
                   {project.details.map((d, i) => (
                     <motion.li
@@ -110,6 +128,24 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
                     </motion.li>
                   ))}
                 </ul>
+
+                {project.youtubeEmbed && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="relative w-full rounded-xl overflow-hidden border border-border/50"
+                    style={{ paddingBottom: "56.25%" }}
+                  >
+                    <iframe
+                      src={project.youtubeEmbed}
+                      title="Project Demo Video"
+                      className="absolute inset-0 w-full h-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </motion.div>
+                )}
               </div>
             </motion.div>
           )}

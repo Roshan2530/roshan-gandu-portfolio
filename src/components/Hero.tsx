@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Mail, FileText } from "lucide-react";
+import { Github, Linkedin, FileText, Navigation } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 
@@ -9,7 +9,11 @@ const letterVariants = {
     opacity: 1,
     y: 0,
     rotateX: 0,
-    transition: { delay: 0.4 + i * 0.03, duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+    transition: {
+      delay: 0.4 + i * 0.03,
+      duration: 0.6,
+      ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+    },
   }),
 };
 
@@ -38,7 +42,10 @@ const Hero = () => {
           Application Development & Data Science
         </motion.p>
 
-        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-[1.05] tracking-tight" style={{ perspective: "600px" }}>
+        <h1
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-[1.05] tracking-tight"
+          style={{ perspective: "600px" }}
+        >
           <span className="inline-block">
             {firstName.split("").map((char, i) => (
               <motion.span
@@ -78,8 +85,7 @@ const Hero = () => {
           transition={{ delay: 0.9 }}
           className="mt-6 text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
         >
-          Turning data into decisions and ideas into scalable applications with
-          Flutter, Python & ML.
+          Turning data into decisions and ideas into scalable applications with Flutter, Python & ML.
         </motion.p>
 
         {/* CTA Buttons */}
@@ -89,20 +95,22 @@ const Hero = () => {
           transition={{ delay: 1.1 }}
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
-          {[
-            { href: "#projects", label: "View Projects", variant: "default" as const, extra: "bg-primary text-primary-foreground hover:shadow-[0_0_30px_hsl(var(--primary)/0.4)]" },
-            { href: "#contact", label: "Contact Me", variant: "outline" as const, extra: "border-primary/40 text-primary hover:bg-primary/10 hover:shadow-[0_0_20px_hsl(var(--primary)/0.2)]" },
-          ].map((btn) => (
-            <motion.div key={btn.label} whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-              <Button asChild size="lg" variant={btn.variant} className={`rounded-full px-8 transition-all duration-300 ${btn.extra}`}>
-                <a href={btn.href}>{btn.label}</a>
-              </Button>
-            </motion.div>
-          ))}
           <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-            <Button variant="outline" size="lg" className="rounded-full px-8 border-border text-muted-foreground hover:border-primary/40 hover:text-primary transition-all duration-300">
-              <FileText size={16} className="mr-2" />
-              Resume
+            <Button asChild size="lg" className="rounded-full px-8 bg-primary text-primary-foreground hover:shadow-[0_0_30px_hsl(var(--primary)/0.4)] transition-all duration-300">
+              <a href="#projects">View Projects</a>
+            </Button>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
+            <Button asChild variant="outline" size="lg" className="rounded-full px-8 border-primary/40 text-primary hover:bg-primary/10 hover:shadow-[0_0_20px_hsl(var(--primary)/0.2)] transition-all duration-300">
+              <a href="#contact">Contact Me</a>
+            </Button>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
+            <Button asChild variant="outline" size="lg" className="rounded-full px-8 border-border text-muted-foreground hover:border-primary/40 hover:text-primary transition-all duration-300">
+              <a href="/resume.pdf" download target="_blank" rel="noopener noreferrer">
+                <FileText size={16} className="mr-2" />
+                Resume
+              </a>
             </Button>
           </motion.div>
         </motion.div>
@@ -117,13 +125,13 @@ const Hero = () => {
           {[
             { icon: Linkedin, href: "https://www.linkedin.com/in/roshanmodi25", label: "LinkedIn" },
             { icon: Github, href: "https://github.com/Roshan2530", label: "GitHub" },
-            { icon: Mail, href: "mailto:roshanmodi761@gmail.com", label: "Email" },
-          ].map(({ icon: Icon, href, label }, i) => (
+            { icon: Navigation, href: "mailto:roshanmodi761@gmail.com", label: "Email", external: false },
+          ].map(({ icon: Icon, href, label, external }, i) => (
             <motion.a
               key={label}
               href={href}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={external === false ? undefined : "_blank"}
+              rel={external === false ? undefined : "noopener noreferrer"}
               aria-label={label}
               className="p-2.5 rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary/40 hover:shadow-[0_0_15px_hsl(var(--primary)/0.2)] transition-all duration-300"
               initial={{ opacity: 0, scale: 0 }}
@@ -135,23 +143,6 @@ const Hero = () => {
               <Icon size={18} />
             </motion.a>
           ))}
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.8 }}
-          className="mt-16"
-        >
-          <motion.a
-            href="#about"
-            className="inline-block text-muted-foreground hover:text-primary transition-colors"
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <ArrowDown size={20} />
-          </motion.a>
         </motion.div>
       </motion.div>
     </section>
