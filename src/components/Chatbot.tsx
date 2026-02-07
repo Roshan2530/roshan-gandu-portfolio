@@ -84,8 +84,8 @@ const TypingDots = () => (
 
 const SUGGESTIONS = [
   "Who is Roshan?",
-  "What tech stack?",
-  "Tell me a joke",
+  "What are his skills?",
+  "Tell me about his projects",
 ];
 
 const Chatbot = () => {
