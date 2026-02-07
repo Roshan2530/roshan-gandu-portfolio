@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ExternalLink } from "lucide-react";
+import { ChevronDown, ExternalLink, Play } from "lucide-react";
 import SectionReveal from "./SectionReveal";
 
 interface Project {
@@ -10,6 +10,7 @@ interface Project {
   tech: string[];
   shareUrl?: string;
   youtubeEmbed?: string;
+  youtubeLink?: string;
 }
 
 const projects: Project[] = [
@@ -33,7 +34,7 @@ const projects: Project[] = [
       "Real-time monitoring and instant response mechanism",
     ],
     tech: ["Arduino Uno", "Rain Sensor", "DC Motor"],
-    youtubeEmbed: "https://www.youtube.com/embed/ZYYZWtk_J_o?si=7jGn2nPfLJbavnvS",
+    youtubeLink: "https://www.youtube.com/watch?v=ZYYZWtk_J_o",
   },
   {
     title: "RD Tours & Travels",
@@ -76,6 +77,18 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
                   aria-label="View on GitHub"
                 >
                   <ExternalLink size={14} />
+                </a>
+              )}
+              {project.youtubeLink && (
+                <a
+                  href={project.youtubeLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="p-1.5 rounded-lg border border-border text-muted-foreground hover:text-red-400 hover:border-red-400/40 hover:shadow-[0_0_12px_hsla(0,70%,60%,0.2)] transition-all duration-300"
+                  aria-label="Watch Demo Video"
+                >
+                  <Play size={14} />
                 </a>
               )}
             </div>
@@ -129,23 +142,8 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
                   ))}
                 </ul>
 
-                {project.youtubeEmbed && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="relative w-full rounded-xl overflow-hidden border border-border/50"
-                    style={{ paddingBottom: "56.25%" }}
-                  >
-                    <iframe
-                      src={project.youtubeEmbed}
-                      title="Project Demo Video"
-                      className="absolute inset-0 w-full h-full"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    />
-                  </motion.div>
-                )}
+
+
               </div>
             </motion.div>
           )}
