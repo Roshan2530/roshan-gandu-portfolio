@@ -273,13 +273,7 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
             transition={{ duration: 0.5 }}
           >
             <h1 className="text-xl sm:text-2xl font-bold gradient-text mb-2">
-              <DecryptedText
-                text="Roshan Modi"
-                speed={40}
-                maxIterations={10}
-                sequential
-                revealDirection="start"
-              />
+              Roshan Modi
             </h1>
 
             <motion.p
