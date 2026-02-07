@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Github, Linkedin, FileText, Compass } from "lucide-react";
+import { Github, Linkedin, FileText, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 
@@ -125,13 +125,13 @@ const Hero = () => {
           {[
             { icon: Linkedin, href: "https://www.linkedin.com/in/roshanmodi25", label: "LinkedIn" },
             { icon: Github, href: "https://github.com/Roshan2530", label: "GitHub" },
-            { icon: Compass, href: "mailto:roshanmodi761@gmail.com", label: "Email", external: false },
-          ].map(({ icon: Icon, href, label, external }, i) => (
+            { icon: Mail, href: "https://mail.google.com/mail/?view=cm&to=roshanmodi761@gmail.com", label: "Email" },
+          ].map(({ icon: Icon, href, label }, i) => (
             <motion.a
               key={label}
               href={href}
-              target={external === false ? undefined : "_blank"}
-              rel={external === false ? undefined : "noopener noreferrer"}
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label={label}
               className="p-2.5 rounded-full border border-border text-muted-foreground hover:text-primary hover:border-primary/40 hover:shadow-[0_0_15px_hsl(var(--primary)/0.2)] transition-all duration-300"
               initial={{ opacity: 0, scale: 0 }}
