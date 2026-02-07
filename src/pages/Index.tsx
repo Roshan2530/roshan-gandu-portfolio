@@ -9,6 +9,7 @@ import ProjectsSection from "@/components/ProjectsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import Preloader from "@/components/Preloader";
+import Chatbot from "@/components/Chatbot";
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
@@ -42,6 +43,7 @@ const Index = () => {
           <ProjectsSection />
           <ContactSection />
           <Footer />
+          <Chatbot />
         </div>
       )}
     </>
