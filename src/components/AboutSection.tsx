@@ -36,7 +36,7 @@ const AboutSection = () => {
               turning complex problems into elegant, scalable solutions.
             </p>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
               {chips.map(({ icon: Icon, label }, i) => (
                 <motion.div
                   key={label}
@@ -45,10 +45,10 @@ const AboutSection = () => {
                   viewport={{ once: true }}
                   transition={{ delay: 0.3 + i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                   whileHover={{ scale: 1.05, y: -4 }}
-                  className="flex items-center gap-3 p-4 rounded-xl bg-secondary/50 border border-border hover:border-primary/30 hover:shadow-[0_0_20px_hsl(var(--primary)/0.15)] transition-all duration-300 cursor-default"
+                  className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-xl bg-secondary/50 border border-border hover:border-primary/30 hover:shadow-[0_0_20px_hsl(var(--primary)/0.15)] transition-all duration-300 cursor-default text-center sm:text-left"
                 >
                   <Icon size={20} className="text-primary shrink-0" />
-                  <span className="text-sm font-medium text-foreground">
+                  <span className="text-xs sm:text-sm font-medium text-foreground">
                     {label}
                   </span>
                 </motion.div>
