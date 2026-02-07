@@ -10,7 +10,6 @@ interface Project {
   tech: string[];
   shareUrl?: string;
   youtubeEmbed?: string;
-  youtubeLink?: string;
 }
 
 const projects: Project[] = [
@@ -34,7 +33,7 @@ const projects: Project[] = [
       "Real-time monitoring and instant response mechanism",
     ],
     tech: ["Arduino Uno", "Rain Sensor", "DC Motor"],
-    youtubeLink: "https://www.youtube.com/watch?v=ZYYZWtk_J_o",
+    youtubeEmbed: "https://www.youtube.com/embed/ZYYZWtk_J_o?si=Gfb_NmvlvgVt55X2",
   },
   {
     title: "RD Tours & Travels",
@@ -50,6 +49,7 @@ const projects: Project[] = [
 
 const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
   const [open, setOpen] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
 
   return (
     <SectionReveal delay={index * 0.1}>
@@ -79,17 +79,14 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
                   <ExternalLink size={14} />
                 </a>
               )}
-              {project.youtubeLink && (
-                <a
-                  href={project.youtubeLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="p-1.5 rounded-lg border border-border text-muted-foreground hover:text-red-400 hover:border-red-400/40 hover:shadow-[0_0_12px_hsla(0,70%,60%,0.2)] transition-all duration-300"
+              {project.youtubeEmbed && (
+                <button
+                  onClick={(e) => { e.stopPropagation(); setShowVideo(!showVideo); }}
+                  className="p-1.5 rounded-lg border border-border text-muted-foreground hover:text-destructive hover:border-destructive/40 hover:shadow-[0_0_12px_hsl(var(--destructive)/0.2)] transition-all duration-300"
                   aria-label="Watch Demo Video"
                 >
                   <Play size={14} />
-                </a>
+                </button>
               )}
             </div>
             <p className="text-sm text-muted-foreground">{project.tagline}</p>
@@ -116,6 +113,34 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
             <ChevronDown size={20} />
           </motion.div>
         </button>
+
+        {/* Inline YouTube Video */}
+        <AnimatePresence>
+          {showVideo && project.youtubeEmbed && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="overflow-hidden px-6 md:px-8 pb-6"
+            >
+              <div
+                className="relative w-full rounded-xl overflow-hidden border border-border/50"
+                style={{ paddingBottom: "56.25%" }}
+              >
+                <iframe
+                  src={project.youtubeEmbed}
+                  title="Project Demo Video"
+                  className="absolute inset-0 w-full h-full"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <AnimatePresence>
           {open && (

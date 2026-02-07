@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Github, Linkedin, FileText, Navigation } from "lucide-react";
+import { Github, Linkedin, FileText, Compass } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 
@@ -125,7 +125,7 @@ const Hero = () => {
           {[
             { icon: Linkedin, href: "https://www.linkedin.com/in/roshanmodi25", label: "LinkedIn" },
             { icon: Github, href: "https://github.com/Roshan2530", label: "GitHub" },
-            { icon: Navigation, href: "mailto:roshanmodi761@gmail.com", label: "Email", external: false },
+            { icon: Compass, href: "mailto:roshanmodi761@gmail.com", label: "Email", external: false },
           ].map(({ icon: Icon, href, label, external }, i) => (
             <motion.a
               key={label}

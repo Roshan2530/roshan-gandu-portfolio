@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigation, Linkedin, Github, Send, MessageCircle } from "lucide-react";
+import { Compass, Linkedin, Github, Send, MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,7 +16,7 @@ const contactCards = [
     external: true,
   },
   {
-    icon: Navigation,
+    icon: Compass,
     label: "Email",
     value: "roshanmodi761@gmail.com",
     href: "mailto:roshanmodi761@gmail.com",
