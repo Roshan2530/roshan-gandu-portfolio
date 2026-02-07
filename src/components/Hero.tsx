@@ -43,10 +43,10 @@ const Hero = () => {
         </motion.p>
 
         <h1
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-[1.05] tracking-tight"
+          className="text-[2.5rem] sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-[1.1] tracking-tight"
           style={{ perspective: "600px" }}
         >
-          <span className="inline-block">
+          <span className="inline-block whitespace-nowrap">
             {firstName.split("").map((char, i) => (
               <motion.span
                 key={i}
@@ -62,7 +62,7 @@ const Hero = () => {
             ))}
           </span>
           <br />
-          <span className="gradient-text neon-glow-text inline-block">
+          <span className="gradient-text neon-glow-text inline-block whitespace-nowrap">
             {lastName.split("").map((char, i) => (
               <motion.span
                 key={i}
