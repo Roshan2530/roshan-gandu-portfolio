@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ExternalLink } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import SectionReveal from "./SectionReveal";
 
 interface Project {
@@ -48,7 +48,11 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
 
   return (
     <SectionReveal delay={index * 0.1}>
-      <div className="glass-card rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.01]">
+      <motion.div
+        className="glass-card rounded-2xl overflow-hidden transition-all duration-500"
+        whileHover={{ scale: 1.01, y: -4, boxShadow: "0 0 40px hsla(185, 80%, 55%, 0.12)" }}
+        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+      >
         <button
           onClick={() => setOpen(!open)}
           className="w-full text-left p-6 md:p-8 flex items-start justify-between gap-4"
@@ -59,18 +63,23 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
             </h3>
             <p className="text-sm text-muted-foreground">{project.tagline}</p>
             <div className="flex flex-wrap gap-2 mt-4">
-              {project.tech.map((t) => (
-                <span
+              {project.tech.map((t, i) => (
+                <motion.span
                   key={t}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 + i * 0.04 }}
                   className="text-[10px] font-mono px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/20"
                 >
                   {t}
-                </span>
+                </motion.span>
               ))}
             </div>
           </div>
           <motion.div
             animate={{ rotate: open ? 180 : 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
             className="shrink-0 mt-1 text-muted-foreground"
           >
             <ChevronDown size={20} />
@@ -83,23 +92,29 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="overflow-hidden"
             >
               <div className="px-6 md:px-8 pb-6 md:pb-8 border-t border-border/50 pt-5">
                 <ul className="space-y-3">
                   {project.details.map((d, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground">
+                    <motion.li
+                      key={i}
+                      initial={{ opacity: 0, x: -15 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.1, duration: 0.4 }}
+                      className="flex items-start gap-3 text-sm text-muted-foreground"
+                    >
                       <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
                       {d}
-                    </li>
+                    </motion.li>
                   ))}
                 </ul>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
     </SectionReveal>
   );
 };

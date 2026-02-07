@@ -1,4 +1,5 @@
 import { Smartphone, Server, BarChart3, GraduationCap } from "lucide-react";
+import { motion } from "framer-motion";
 import SectionReveal from "./SectionReveal";
 
 const services = [
@@ -24,13 +25,20 @@ const ServicesSection = () => {
         <div className="grid sm:grid-cols-2 gap-5">
           {services.map(({ icon: Icon, title, desc }, i) => (
             <SectionReveal key={title} delay={i * 0.08}>
-              <div className="glass-card rounded-2xl p-7 transition-all duration-500 group hover:scale-[1.02]">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-5 group-hover:shadow-[0_0_20px_hsl(var(--primary)/0.3)] transition-all duration-300">
+              <motion.div
+                className="glass-card rounded-2xl p-7 transition-all duration-500 group"
+                whileHover={{ scale: 1.03, y: -6 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
+                <motion.div
+                  className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-5 transition-all duration-300"
+                  whileHover={{ rotate: 10, scale: 1.1, boxShadow: "0 0 25px hsla(185, 80%, 55%, 0.35)" }}
+                >
                   <Icon size={22} className="text-primary" />
-                </div>
+                </motion.div>
                 <h3 className="text-lg font-semibold mb-2">{title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{desc}</p>
-              </div>
+              </motion.div>
             </SectionReveal>
           ))}
         </div>

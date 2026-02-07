@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import SectionReveal from "./SectionReveal";
 
 interface SkillGroup {
@@ -32,21 +33,30 @@ const SkillsSection = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {skillGroups.map((group, i) => (
             <SectionReveal key={group.title} delay={i * 0.05}>
-              <div className="glass-card rounded-2xl p-6 h-full transition-all duration-500 group hover:scale-[1.02]">
+              <motion.div
+                className="glass-card rounded-2xl p-6 h-full transition-all duration-500 group"
+                whileHover={{ scale: 1.03, y: -6 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
                 <h3 className="text-sm font-semibold text-primary mb-4 tracking-wide uppercase">
                   {group.title}
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {group.skills.map((skill) => (
-                    <span
+                  {group.skills.map((skill, j) => (
+                    <motion.span
                       key={skill}
-                      className="text-xs px-3 py-1.5 rounded-full bg-secondary border border-border text-muted-foreground group-hover:border-primary/20 transition-colors"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.1 + j * 0.04, duration: 0.3 }}
+                      whileHover={{ scale: 1.1, backgroundColor: "hsla(185, 80%, 55%, 0.15)" }}
+                      className="text-xs px-3 py-1.5 rounded-full bg-secondary border border-border text-muted-foreground group-hover:border-primary/20 transition-colors cursor-default"
                     >
                       {skill}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             </SectionReveal>
           ))}
         </div>
