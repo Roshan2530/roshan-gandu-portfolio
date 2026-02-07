@@ -48,18 +48,30 @@ const DecryptedText = ({
     return () => obs.disconnect();
   }, [animateOn]);
 
-  // Scramble + sequential reveal
+  // Scramble + word-by-word reveal
   useEffect(() => {
     if (!started) return;
 
-    const order = Array.from({ length: text.length }, (_, i) => i);
-    if (revealDirection === "end") order.reverse();
+    // Build word groups: array of arrays of char indices per word
+    const words: number[][] = [];
+    let currentWord: number[] = [];
+    for (let i = 0; i < text.length; i++) {
+      if (text[i] === " ") {
+        if (currentWord.length) words.push(currentWord);
+        currentWord = [];
+      } else {
+        currentWord.push(i);
+      }
+    }
+    if (currentWord.length) words.push(currentWord);
+
+    if (revealDirection === "end") words.reverse();
     else if (revealDirection === "center") {
-      const mid = Math.floor(text.length / 2);
-      order.sort((a, b) => Math.abs(a - mid) - Math.abs(b - mid));
+      const mid = Math.floor(words.length / 2);
+      words.sort((a, b) => Math.abs(words.indexOf(a) - mid) - Math.abs(words.indexOf(b) - mid));
     }
 
-    // Scramble interval
+    // Scramble unrevealed chars
     const scrambleInterval = setInterval(() => {
       setDisplayed((prev) =>
         prev.map((c, i) => {
@@ -69,20 +81,29 @@ const DecryptedText = ({
       );
     }, speed);
 
-    // Sequential reveal
-    let revealIndex = 0;
+    // Reveal word by word
+    let wordIndex = 0;
+    const wordDelay = Math.max(80, 2800 / words.length); // spread across ~2.8s
     const revealInterval = setInterval(() => {
-      if (revealIndex >= order.length) {
+      if (wordIndex >= words.length) {
         clearInterval(revealInterval);
         clearInterval(scrambleInterval);
         setDisplayed(text.split(""));
         return;
       }
-      const idx = order[revealIndex];
-      setRevealed((prev) => { const next = [...prev]; next[idx] = true; return next; });
-      setDisplayed((prev) => { const next = [...prev]; next[idx] = text[idx]; return next; });
-      revealIndex++;
-    }, sequential ? speed * 1.5 : speed * 0.5);
+      const indices = words[wordIndex];
+      setRevealed((prev) => {
+        const next = [...prev];
+        indices.forEach((idx) => { next[idx] = true; });
+        return next;
+      });
+      setDisplayed((prev) => {
+        const next = [...prev];
+        indices.forEach((idx) => { next[idx] = text[idx]; });
+        return next;
+      });
+      wordIndex++;
+    }, wordDelay);
 
     return () => { clearInterval(scrambleInterval); clearInterval(revealInterval); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
