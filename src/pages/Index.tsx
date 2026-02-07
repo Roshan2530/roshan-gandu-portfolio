@@ -17,8 +17,12 @@ const Index = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Always show preloader on mount (every refresh)
+  // Always reset to top on mount (every refresh)
   useEffect(() => {
+    if (window.location.hash) {
+      history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+    window.scrollTo(0, 0);
     setLoading(true);
   }, []);
 
