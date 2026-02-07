@@ -1,49 +1,101 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 
-const DecryptedText = ({
-  text,
-  speed = 50,
-  maxIterations = 15,
-  characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*",
-  className = "",
-}: {
+interface DecryptedTextProps {
   text: string;
   speed?: number;
   maxIterations?: number;
   characters?: string;
   className?: string;
-}) => {
-  const [displayed, setDisplayed] = useState(
-    text.split("").map(() => characters[Math.floor(Math.random() * characters.length)])
-  );
-  const [done, setDone] = useState(false);
+  sequential?: boolean;
+  revealDirection?: "start" | "end" | "center";
+  animateOn?: "view" | "hover" | "mount";
+  useOriginalCharsOnly?: boolean;
+}
 
+const DecryptedText = ({
+  text,
+  speed = 50,
+  maxIterations = 15,
+  characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*<>[]{}",
+  className = "",
+  sequential = true,
+  revealDirection = "start",
+  animateOn = "mount",
+  useOriginalCharsOnly = false,
+}: DecryptedTextProps) => {
+  const charset = useOriginalCharsOnly
+    ? [...new Set(text.split(""))].filter((c) => c !== " ")
+    : characters.split("");
+
+  const getRandomChar = () => charset[Math.floor(Math.random() * charset.length)];
+
+  const [displayed, setDisplayed] = useState<string[]>(
+    text.split("").map((c) => (c === " " ? " " : getRandomChar()))
+  );
+  const [revealed, setRevealed] = useState<boolean[]>(new Array(text.length).fill(false));
+  const [started, setStarted] = useState(animateOn === "mount");
+  const ref = useRef<HTMLSpanElement>(null);
+
+  // Intersection observer for "view" trigger
   useEffect(() => {
-    const iterations = new Array(text.length).fill(0);
-    const interval = setInterval(() => {
+    if (animateOn !== "view" || !ref.current) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setStarted(true); obs.disconnect(); } },
+      { threshold: 0.3 }
+    );
+    obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [animateOn]);
+
+  // Scramble + sequential reveal
+  useEffect(() => {
+    if (!started) return;
+
+    const order = Array.from({ length: text.length }, (_, i) => i);
+    if (revealDirection === "end") order.reverse();
+    else if (revealDirection === "center") {
+      const mid = Math.floor(text.length / 2);
+      order.sort((a, b) => Math.abs(a - mid) - Math.abs(b - mid));
+    }
+
+    // Scramble interval
+    const scrambleInterval = setInterval(() => {
       setDisplayed((prev) =>
-        prev.map((char, i) => {
-          if (iterations[i] >= maxIterations) return text[i];
-          iterations[i]++;
-          return characters[Math.floor(Math.random() * characters.length)];
+        prev.map((c, i) => {
+          if (revealed[i] || text[i] === " ") return text[i];
+          return getRandomChar();
         })
       );
-      if (iterations.every((it) => it >= maxIterations)) {
-        clearInterval(interval);
-        setDone(true);
-      }
     }, speed);
-    return () => clearInterval(interval);
-  }, [text, speed, maxIterations, characters]);
+
+    // Sequential reveal
+    let revealIndex = 0;
+    const revealInterval = setInterval(() => {
+      if (revealIndex >= order.length) {
+        clearInterval(revealInterval);
+        clearInterval(scrambleInterval);
+        setDisplayed(text.split(""));
+        return;
+      }
+      const idx = order[revealIndex];
+      setRevealed((prev) => { const next = [...prev]; next[idx] = true; return next; });
+      setDisplayed((prev) => { const next = [...prev]; next[idx] = text[idx]; return next; });
+      revealIndex++;
+    }, sequential ? speed * 1.5 : speed * 0.5);
+
+    return () => { clearInterval(scrambleInterval); clearInterval(revealInterval); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [started]);
 
   return (
-    <span className={className}>
+    <span
+      ref={ref}
+      className={className}
+      onMouseEnter={animateOn === "hover" ? () => setStarted(true) : undefined}
+    >
       {displayed.map((char, i) => (
-        <span
-          key={i}
-          className={done && char === text[i] ? "" : "opacity-70"}
-        >
+        <span key={i} className={revealed[i] ? "opacity-100" : "opacity-60"}>
           {char}
         </span>
       ))}
@@ -115,6 +167,8 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
             text="Accessing Roshan's Workspace"
             speed={40}
             maxIterations={12}
+            sequential
+            revealDirection="start"
           />
         </h1>
 
@@ -145,4 +199,5 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   );
 };
 
+export { DecryptedText };
 export default Preloader;
