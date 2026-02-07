@@ -1,19 +1,7 @@
-import Navigation from "@/components/Navigation";
-import Hero from "@/components/Hero";
-import Services from "@/components/Services";
-import About from "@/components/About";
-import Portfolio from "@/components/Portfolio";
-import Contact from "@/components/Contact";
-
 const Index = () => {
   return (
-    <div className="min-h-screen">
-      <Navigation />
-      <Hero />
-      <Services />
-      <About />
-      <Portfolio />
-      <Contact />
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <h1 className="text-4xl font-bold text-foreground">Start building here</h1>
     </div>
   );
 };
