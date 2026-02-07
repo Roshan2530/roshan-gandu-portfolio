@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, Bot, User, Sparkles } from "lucide-react";
+import { MessageCircle, X, Send, Bot, User, Sparkles, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ReactMarkdown from "react-markdown";
 
@@ -193,13 +193,24 @@ const Chatbot = () => {
               <div className="relative w-10 h-10 rounded-2xl flex items-center justify-center" style={{ background: "linear-gradient(135deg, hsl(var(--neon-teal)), hsl(var(--neon-purple)))" }}>
                 <Sparkles size={18} className="text-background" />
               </div>
-              <div className="relative">
+              <div className="relative flex-1">
                 <p className="text-sm font-bold text-foreground tracking-tight">RM Assistant</p>
                 <div className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                   <p className="text-[10px] text-muted-foreground">Online • AI Powered</p>
                 </div>
               </div>
+              {messages.length > 0 && (
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setMessages([])}
+                  className="relative w-8 h-8 rounded-xl flex items-center justify-center text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+                  title="Clear chat"
+                >
+                  <Trash2 size={14} />
+                </motion.button>
+              )}
             </div>
 
             {/* Messages */}
