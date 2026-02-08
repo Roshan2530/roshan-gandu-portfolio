@@ -103,21 +103,23 @@ const Navbar = () => {
             transition={{ duration: 0.3 }}
             className="md:hidden bg-background/95 backdrop-blur-xl border-b border-border overflow-hidden"
           >
-            <div className="container mx-auto px-6 py-6 flex flex-col gap-4">
+            <div className="container mx-auto px-6 py-6 flex flex-col gap-1">
               {navLinks.map((link, i) => (
-                <motion.a
+                <motion.button
                   key={link.href}
-                  href={`#${link.href}`}
+                  type="button"
                   onClick={(e) => scrollToSection(e, link.href)}
-                  className={`text-sm transition-colors ${
-                    active === link.href ? "text-primary" : "text-muted-foreground hover:text-primary"
+                  className={`text-left text-sm py-3 px-2 rounded-lg transition-colors ${
+                    active === link.href
+                      ? "text-primary bg-primary/10"
+                      : "text-muted-foreground active:text-primary active:bg-primary/5"
                   }`}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.05 }}
                 >
                   {link.label}
-                </motion.a>
+                </motion.button>
               ))}
             </div>
           </motion.div>
