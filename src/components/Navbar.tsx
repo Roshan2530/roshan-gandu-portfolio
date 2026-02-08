@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import useActiveSection from "@/hooks/useActiveSection";
@@ -20,6 +20,15 @@ const Navbar = () => {
   const bgOpacity = useTransform(scrollY, [0, 100], [0, 0.8]);
   const borderOpacity = useTransform(scrollY, [0, 100], [0, 0.5]);
 
+  const scrollToSection = useCallback((e: React.MouseEvent, sectionId: string) => {
+    e.preventDefault();
+    const el = document.getElementById(sectionId);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    setIsOpen(false);
+  }, []);
+
   return (
     <motion.nav
       className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b"
@@ -31,6 +40,7 @@ const Navbar = () => {
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         <motion.a
           href="#home"
+          onClick={(e) => scrollToSection(e, "home")}
           className="flex items-center gap-3"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
@@ -50,6 +60,7 @@ const Navbar = () => {
               <motion.a
                 key={link.href}
                 href={`#${link.href}`}
+                onClick={(e) => scrollToSection(e, link.href)}
                 className={`relative text-sm transition-colors duration-300 ${
                   isActive ? "text-primary" : "text-muted-foreground hover:text-primary"
                 }`}
@@ -97,7 +108,7 @@ const Navbar = () => {
                 <motion.a
                   key={link.href}
                   href={`#${link.href}`}
-                  onClick={() => setIsOpen(false)}
+                  onClick={(e) => scrollToSection(e, link.href)}
                   className={`text-sm transition-colors ${
                     active === link.href ? "text-primary" : "text-muted-foreground hover:text-primary"
                   }`}
