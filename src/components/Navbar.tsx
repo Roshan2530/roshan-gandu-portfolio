@@ -20,13 +20,15 @@ const Navbar = () => {
   const bgOpacity = useTransform(scrollY, [0, 100], [0, 0.8]);
   const borderOpacity = useTransform(scrollY, [0, 100], [0, 0.5]);
 
-  const scrollToSection = useCallback((e: React.MouseEvent, sectionId: string) => {
-    e.preventDefault();
-    const el = document.getElementById(sectionId);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+  const scrollToSection = useCallback((sectionId: string) => {
     setIsOpen(false);
+    // Small delay to let the menu close animation start before scrolling
+    setTimeout(() => {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100);
   }, []);
 
   return (
@@ -40,7 +42,7 @@ const Navbar = () => {
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         <motion.a
           href="#home"
-          onClick={(e) => scrollToSection(e, "home")}
+          onClick={(e) => { e.preventDefault(); scrollToSection("home"); }}
           className="flex items-center gap-3"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.97 }}
@@ -60,7 +62,7 @@ const Navbar = () => {
               <motion.a
                 key={link.href}
                 href={`#${link.href}`}
-                onClick={(e) => scrollToSection(e, link.href)}
+                onClick={(e) => { e.preventDefault(); scrollToSection(link.href); }}
                 className={`relative text-sm transition-colors duration-300 ${
                   isActive ? "text-primary" : "text-muted-foreground hover:text-primary"
                 }`}
@@ -108,7 +110,7 @@ const Navbar = () => {
                 <motion.button
                   key={link.href}
                   type="button"
-                  onClick={(e) => scrollToSection(e, link.href)}
+                  onClick={() => scrollToSection(link.href)}
                   className={`text-left text-sm py-3 px-2 rounded-lg transition-colors ${
                     active === link.href
                       ? "text-primary bg-primary/10"
