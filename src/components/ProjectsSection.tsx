@@ -45,6 +45,24 @@ const projects: Project[] = [
     ],
     tech: ["Flutter", "Firebase", "Razorpay"],
   },
+  {
+    title: "Loan Prediction Website + API",
+    tagline: "Full-stack loan eligibility prediction system with separate ML API",
+    details: [
+      "User-friendly loan application workflow with real-time prediction",
+      "Machine Learning model integration for loan eligibility prediction",
+      "Clean architecture with separate PHP website and Flask prediction API",
+      "End-to-end flow: Website → API → ML Model → Prediction Result",
+    ],
+    tech: ["PHP", "Flask", "MySQL", "Machine Learning", "REST API"],
+    shareUrl: "https://github.com/Roshan2530/loan-prediction-website",
+    extraLinks: [
+      {
+        label: "Prediction API Repo",
+        url: "https://github.com/Roshan2530/loan-prediction-api",
+      },
+    ],
+  },
 ];
 
 const ProjectCard = ({ project, index }: { project: Project; index: number }) => {
@@ -64,9 +82,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
         >
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
-              <h3 className="text-lg md:text-xl font-semibold text-foreground">
-                {project.title}
-              </h3>
+              <h3 className="text-lg md:text-xl font-semibold text-foreground">{project.title}</h3>
               {project.shareUrl && (
                 <a
                   href={project.shareUrl}
@@ -81,7 +97,10 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
               )}
               {project.youtubeEmbed && (
                 <button
-                  onClick={(e) => { e.stopPropagation(); setShowVideo(!showVideo); }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowVideo(!showVideo);
+                  }}
                   className="p-1.5 rounded-lg border border-border text-muted-foreground hover:text-destructive hover:border-destructive/40 hover:shadow-[0_0_12px_hsl(var(--destructive)/0.2)] transition-all duration-300"
                   aria-label="Watch Demo Video"
                 >
@@ -166,9 +185,6 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
                     </motion.li>
                   ))}
                 </ul>
-
-
-
               </div>
             </motion.div>
           )}
@@ -183,9 +199,7 @@ const ProjectsSection = () => {
     <section id="projects" className="section-padding relative z-10">
       <div className="container mx-auto px-6 max-w-4xl">
         <SectionReveal>
-          <p className="font-mono text-xs tracking-[0.3em] text-primary mb-3 uppercase">
-            Projects
-          </p>
+          <p className="font-mono text-xs tracking-[0.3em] text-primary mb-3 uppercase">Projects</p>
           <h2 className="text-3xl md:text-4xl font-bold mb-12">
             Featured <span className="gradient-text">Work</span>
           </h2>
