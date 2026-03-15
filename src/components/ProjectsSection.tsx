@@ -3,6 +3,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ExternalLink, Play } from "lucide-react";
 import SectionReveal from "./SectionReveal";
 
+interface ExtraLink {
+  label: string;
+  url: string;
+}
+
 interface Project {
   title: string;
   tagline: string;
@@ -10,6 +15,7 @@ interface Project {
   tech: string[];
   shareUrl?: string;
   youtubeEmbed?: string;
+  extraLinks?: ExtraLink[];
 }
 
 const projects: Project[] = [
